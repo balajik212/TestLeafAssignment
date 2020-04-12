@@ -1,7 +1,11 @@
-package week1.day2;
+package week2.day3;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class CreateLead {
 
@@ -11,6 +15,8 @@ public class CreateLead {
 		System.setProperty("webdriver.chrome.driver", "chromedriver");
 		
 		ChromeDriver driver = new ChromeDriver();
+		
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 		
 		driver.get("http://leaftaps.com/opentaps/control/main");
 		
@@ -26,25 +32,25 @@ public class CreateLead {
 		
 		driver.findElementByLinkText("Create Lead").click();
 		
-		driver.findElementById("createLeadForm_companyName").sendKeys("Test");
+		//Select Dropdown
+		WebElement dropdown1 = driver.findElementById("createLeadForm_dataSourceId");
 		
-		driver.findElementById("createLeadForm_firstName").sendKeys("First");
+		Select dd1 = new Select(dropdown1);
 		
-		driver.findElementById("createLeadForm_lastName").sendKeys("Last");
+		//Select dropdown by Text
+		dd1.selectByVisibleText("Employee");
 		
-		driver.findElementByClassName("smallSubmit").click();		
+		//Selecting second dropdown
+		WebElement dropdown2 = driver.findElementById("createLeadForm_industryEnumId");
 		
-		String title = driver.getTitle();
+		Select dd2 = new Select(dropdown2);
 		
-		if(title.equalsIgnoreCase("View Lead"))
-		{
-			System.out.println("Lead created");
-		}
+		List<WebElement> options = dd2.getOptions();
+		int count = options.size();
 		
+		dd2.selectByIndex(count-1);
 		
-		//driver.close();
-		
-		
+	
 	}
 
 }
